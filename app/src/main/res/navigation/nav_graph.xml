@@ -8,6 +8,23 @@
     <fragment
         android:id="@+id/charactersFragment"
         android:name="ar.com.p39.marvel_universe.character_list.CharactersFragment"
-        android:label="characters_fragment"
-        tools:layout="@layout/characters_fragment" />
+        android:label="Marvel Universe"
+        tools:layout="@layout/characters_fragment">
+        <action
+            android:id="@+id/action_charactersFragment_to_characterDetailsFragment"
+            app:destination="@id/characterDetailsFragment"
+            app:popUpTo="@id/charactersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailsFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.CharacterDetailsFragment"
+        android:label="{characterName}"
+        tools:layout="@layout/fragment_character_details">
+        <argument
+            android:name="characterId"
+            app:argType="string" />
+        <argument
+            android:name="characterName"
+            app:argType="string" />
+    </fragment>
 </navigation>

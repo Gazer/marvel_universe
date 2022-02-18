@@ -1,5 +1,6 @@
 package ar.com.p39.marvel_universe.character_list
 
+import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -8,6 +9,7 @@ import android.text.style.BulletSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +45,14 @@ class CharactersAdapter @Inject constructor(private var picasso: Picasso) :
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(character: Character) = with(binding) {
+            // TODO: Use safe-args
+            val bundle = Bundle().apply {
+                putString("characterId", character.id)
+                putString("characterName", character.name)
+            }
+            binding.moreInfo.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_charactersFragment_to_characterDetailsFragment, bundle)
+            )
             binding.name.text = character.name
             binding.description.text = when {
                 character.description.isNotBlank() -> character.description

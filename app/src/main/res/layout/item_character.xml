@@ -40,7 +40,7 @@
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintBottom_toTopOf="@+id/imageButton"
+                app:layout_constraintBottom_toTopOf="@+id/more_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toBottomOf="@+id/name"
@@ -59,7 +59,7 @@
                 tools:text="TextView" />
 
             <Button
-                android:id="@+id/imageButton"
+                android:id="@+id/more_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
