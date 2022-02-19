@@ -35,4 +35,8 @@ class CharactersViewModel @Inject constructor(
             }
         }
     }
+
+    fun fetchCharacters() {
+        getCharacters()
+    }
 }

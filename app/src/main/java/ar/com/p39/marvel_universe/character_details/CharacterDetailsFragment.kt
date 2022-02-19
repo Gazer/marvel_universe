@@ -12,6 +12,7 @@ import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.character_details.CharacterDetailsModule.provideFactory
 import ar.com.p39.marvel_universe.databinding.FragmentCharacterDetailsBinding
 import ar.com.p39.marvel_universe.network.MarvelService
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -54,7 +55,10 @@ class CharacterDetailsFragment : Fragment() {
                 CharacterDetailsStates.Loading -> handleLoading(state)
             }
         }
+        fetchData()
+    }
 
+    private fun fetchData() {
         lifecycleScope.launchWhenResumed {
             viewModel.fetchCharacter(arguments?.getString("characterId", "") ?: "")
         }
@@ -87,5 +91,11 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun handleError(state: CharacterDetailsStates.Error) {
         binding.loading.visibility = View.GONE
+
+        Snackbar.make(binding.root, state.error, Snackbar.LENGTH_INDEFINITE).apply {
+            setAction("Retry") {
+                fetchData()
+            }
+        }.show()
     }
 }
