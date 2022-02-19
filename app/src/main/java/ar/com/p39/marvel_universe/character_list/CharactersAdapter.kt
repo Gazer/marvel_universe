@@ -51,15 +51,30 @@ class CharactersAdapter @Inject constructor(private var picasso: Picasso) :
                 putString("characterName", character.name)
             }
             binding.moreInfo.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_charactersFragment_to_characterDetailsFragment, bundle)
+                Navigation.createNavigateOnClickListener(
+                    R.id.action_charactersFragment_to_characterDetailsFragment,
+                    bundle
+                )
             )
             binding.name.text = character.name
             binding.description.text = when {
                 character.description.isNotBlank() -> character.description
-                character.comics.returned > 0 -> createList("Comics", character.comics.items.take(5).map{ it.name })
-                character.events.returned > 0 -> createList("Events", character.events.items.take(5).map{ it.name })
-                character.series.returned > 0 -> createList("Series", character.series.items.take(5).map{ it.name })
-                character.stories.returned > 0 -> createList("Stories", character.stories.items.take(5).map{ it.name })
+                character.comics.returned > 0 -> createList(
+                    "Comics",
+                    character.comics.items.take(5).map { it.name },
+                )
+                character.events.returned > 0 -> createList(
+                    "Events",
+                    character.events.items.take(5).map { it.name },
+                )
+                character.series.returned > 0 -> createList(
+                    "Series",
+                    character.series.items.take(5).map { it.name },
+                )
+                character.stories.returned > 0 -> createList(
+                    "Stories",
+                    character.stories.items.take(5).map { it.name },
+                )
                 else -> "No extra data"
             }
 
