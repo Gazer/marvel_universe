@@ -12,21 +12,23 @@ class CharacterDetailsViewModel @AssistedInject constructor(
     @Assisted private val marvelService: MarvelService,
 ) : ViewModel() {
 
-    private val mutableCharacter: MutableLiveData<Character> = MutableLiveData()
-    private val mutableLoadingError: MutableLiveData<String> = MutableLiveData()
+    private val _uiState: MutableLiveData<CharacterDetailsStates> = MutableLiveData()
 
-    val character: LiveData<Character>
-        get() = mutableCharacter
-    val onError: LiveData<String>
-        get() = mutableLoadingError
+    val uiState: LiveData<CharacterDetailsStates>
+        get() = _uiState
 
     fun fetchCharacter(characterId: String) {
+        _uiState.value = CharacterDetailsStates.Loading
         viewModelScope.launch {
             val response = marvelService.getCharacter(characterId)
             if (response.code == "200") {
-                mutableCharacter.postValue(response.characterData.characters.first())
+                _uiState.postValue(
+                    CharacterDetailsStates.Loaded(response.characterData.characters.first())
+                )
             } else {
-                mutableLoadingError.postValue("Character not found: ${response.status}")
+                _uiState.postValue(
+                    CharacterDetailsStates.Error("Character not found: ${response.status}")
+                )
             }
         }
     }

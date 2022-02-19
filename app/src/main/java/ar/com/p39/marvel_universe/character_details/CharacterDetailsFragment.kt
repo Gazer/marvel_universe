@@ -47,32 +47,45 @@ class CharacterDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.character.observe(viewLifecycleOwner) { character ->
-            Log.d("MCU", "Got character: ${character.description}")
-            val url = "${character.thumbnail.path}.${character.thumbnail.extension}"
-
-            with(binding) {
-                name.text = character.name
-                description.text = character.description
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is CharacterDetailsStates.Error -> handleError(state)
+                is CharacterDetailsStates.Loaded -> handleLoaded(state)
+                CharacterDetailsStates.Loading -> handleLoading(state)
             }
-            if (url.contains("image_not_available")) {
-                picasso.load(R.mipmap.placeholder)
-                    .into(binding.image)
-            } else {
-                picasso
-                    .load(url)
-                    .placeholder(R.mipmap.placeholder)
-                    .into(binding.image)
-            }
-        }
-
-        viewModel.onError.observe(viewLifecycleOwner) {
-            Log.d("MCU", "Got error: $it")
         }
 
         lifecycleScope.launchWhenResumed {
             viewModel.fetchCharacter(arguments?.getString("characterId", "") ?: "")
         }
+    }
 
+    private fun handleLoading(state: CharacterDetailsStates) {
+        binding.loading.visibility = View.VISIBLE
+    }
+
+    private fun handleLoaded(state: CharacterDetailsStates.Loaded) {
+        binding.loading.visibility = View.GONE
+        val character = state.character
+        Log.d("MCU", "Got character: ${character.description}")
+        val url = "${character.thumbnail.path}.${character.thumbnail.extension}"
+
+        with(binding) {
+            name.text = character.name
+            description.text = character.description
+        }
+        if (url.contains("image_not_available")) {
+            picasso.load(R.mipmap.placeholder)
+                .into(binding.image)
+        } else {
+            picasso
+                .load(url)
+                .placeholder(R.mipmap.placeholder)
+                .into(binding.image)
+        }
+    }
+
+    private fun handleError(state: CharacterDetailsStates.Error) {
+        binding.loading.visibility = View.GONE
     }
 }
