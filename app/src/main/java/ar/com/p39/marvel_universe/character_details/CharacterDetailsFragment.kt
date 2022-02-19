@@ -57,12 +57,10 @@ class CharacterDetailsFragment : Fragment() {
             }
             if (url.contains("image_not_available")) {
                 picasso.load(R.mipmap.placeholder)
-                    .fit()
                     .into(binding.image)
             } else {
                 picasso
                     .load(url)
-                    .fit()
                     .placeholder(R.mipmap.placeholder)
                     .into(binding.image)
             }

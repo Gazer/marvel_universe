@@ -12,7 +12,12 @@ class CharactersRemoteDataSource @Inject constructor(
 ) {
     fun getCharacters(): Flow<PagingData<Character>> {
         return Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = true),
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20,
+                prefetchDistance = 1,
+                enablePlaceholders = true,
+            ),
             pagingSourceFactory = {
                 charactersPagingSource
             }

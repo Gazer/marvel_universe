@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.databinding.CharactersFragmentBinding
 import com.squareup.picasso.Picasso
@@ -43,18 +46,37 @@ class CharactersFragment : Fragment() {
         fetchData()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.list.adapter = null
+    }
+
     private fun fetchData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCharacters().collectLatest {
-                Log.d("MCU", "GOT DATA!")
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.charactersFlow.collectLatest {
                 adapter.submitData(it)
             }
         }
     }
 
     private fun initView() {
-        adapter = CharactersAdapter(picasso)
+        if (!::adapter.isInitialized) {
+            adapter = CharactersAdapter(picasso).apply {
+                stateRestorationPolicy =
+                    RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            }
+        }
+        binding.list.apply {
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
+        }
         binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = adapter
+        binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = CharactersLoadingStateAdapter(adapter),
+            footer = CharactersLoadingStateAdapter(adapter),
+        )
     }
 }
