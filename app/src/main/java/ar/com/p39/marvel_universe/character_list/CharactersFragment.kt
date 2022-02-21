@@ -114,12 +114,18 @@ class CharactersFragment : Fragment() {
                 true
             }
         }
-        // This callback will only be called when MyFragment is at least Started.
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            viewModel.setCharacterFilter(null)
+            if (viewModel.query.isNullOrBlank()) {
+                isEnabled = false
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            } else {
+                viewModel.query = null
+                viewModel.setCharacterFilter(null)
+            }
         }
         callback.isEnabled = true
     }
+
 
     private fun initList() {
         adapter = CharactersAdapter(picasso).apply {
