@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.adapters
 
 import android.os.Bundle
 import android.text.Spannable
@@ -6,17 +6,16 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.BulletSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.databinding.ItemCharacterBinding
 import ar.com.p39.marvel_universe.network_models.Character
-import ar.com.p39.marvel_universe.network_models.ComicList
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
@@ -50,6 +49,7 @@ class CharactersAdapter @Inject constructor(private var picasso: Picasso) :
                 putString("characterId", character.id)
                 putString("characterName", character.name)
             }
+            // TODO: Add shared element transition
             binding.moreInfo.setOnClickListener(
                 Navigation.createNavigateOnClickListener(
                     R.id.action_charactersFragment_to_characterDetailsFragment,

@@ -1,13 +1,12 @@
 package ar.com.p39.marvel_universe.character_list
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import ar.com.p39.marvel_universe.network.MarvelService
-import retrofit2.HttpException
-import javax.inject.Inject
 import ar.com.p39.marvel_universe.network_models.Character
+import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
@@ -23,7 +22,7 @@ class CharactersPagingSource @Inject constructor(
         return try {
             val response = service.getCharacters(q, params.loadSize, pageIndex * params.loadSize)
             val characters: List<Character> = response.characterData.characters
-            val nextKey = if (response.characterData.count == 0) {
+            val nextKey = if (response.characterData.count + response.characterData.offset >= response.characterData.total) {
                 null
             } else {
                 pageIndex + 1

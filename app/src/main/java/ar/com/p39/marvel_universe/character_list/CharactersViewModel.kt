@@ -27,23 +27,15 @@ class CharactersViewModel @Inject constructor(
     fun setCharacterFilter(q: String?) {
         query = q
         viewModelScope.launch {
-            try {
-                val result = charactersRemoteDataSource.getCharacters(q).cachedIn(viewModelScope)
-                _charactersFlow.postValue(result)
-            } catch (ex: Exception) {
-//                errorMessage.value = ex.message
-            }
+            val result = charactersRemoteDataSource.getCharacters(q).cachedIn(viewModelScope)
+            _charactersFlow.postValue(result)
         }
     }
 
     private fun getCharacters() {
         viewModelScope.launch {
-            try {
-                val result = charactersRemoteDataSource.getCharacters(null).cachedIn(viewModelScope)
-                _charactersFlow.postValue(result)
-            } catch (ex: Exception) {
-//                errorMessage.value = ex.message
-            }
+            val result = charactersRemoteDataSource.getCharacters(null).cachedIn(viewModelScope)
+            _charactersFlow.postValue(result)
         }
     }
 }

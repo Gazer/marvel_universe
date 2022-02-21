@@ -23,6 +23,7 @@
                 android:id="@+id/image"
                 android:layout_width="128dp"
                 android:layout_height="250dp"
+                android:transitionName="picture"
                 android:contentDescription="Character Image"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"

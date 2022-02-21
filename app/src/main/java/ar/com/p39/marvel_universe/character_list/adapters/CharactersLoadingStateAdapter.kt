@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.p39.marvel_universe.R
+import ar.com.p39.marvel_universe.character_list.adapters.CharactersAdapter
+import ar.com.p39.marvel_universe.character_list.adapters.CharactersLoadingStateAdapter
 import ar.com.p39.marvel_universe.databinding.FragmentCharactersBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint

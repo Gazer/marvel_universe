@@ -16,6 +16,7 @@
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:editTextColor">@color/white</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
