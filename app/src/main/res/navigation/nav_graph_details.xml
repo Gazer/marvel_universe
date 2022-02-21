@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_details"
+    app:startDestination="@id/characterDetailsFragment">
+
+    <fragment
+        android:id="@+id/characterDetailsFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.CharacterDetailsFragment"
+        android:label="{characterName}"
+        tools:layout="@layout/fragment_character_details">
+        <argument
+            android:name="characterId"
+            app:argType="string" />
+        <argument
+            android:name="characterName"
+            app:argType="string" />
+    </fragment>
+</navigation>

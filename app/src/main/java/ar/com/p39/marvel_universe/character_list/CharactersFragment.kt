@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.p39.marvel_universe.R
@@ -20,13 +22,14 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
     private val viewModel: CharactersViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     private lateinit var binding: FragmentCharactersBinding
     private lateinit var adapter: CharactersAdapter
+    private lateinit var navHostFragment: NavHostFragment
+    private var isLargeDevice: Boolean = false
 
     @Inject
     lateinit var picasso: Picasso
@@ -34,6 +37,7 @@ class CharactersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true);
+        isLargeDevice = resources.getBoolean(R.bool.isTablet)
     }
 
     override fun onCreateView(
@@ -47,6 +51,9 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (isLargeDevice) {
+            setupNavHost()
+        }
         initViews()
         initList()
         collectData()
@@ -128,9 +135,14 @@ class CharactersFragment : Fragment() {
         callback.isEnabled = true
     }
 
-
     private fun initList() {
-        adapter = CharactersAdapter(picasso).apply {
+        adapter = CharactersAdapter(picasso, isLargeDevice) { character ->
+            val bundle = Bundle().apply {
+                putString("characterId", character.id)
+                putString("characterName", character.name)
+            }
+            navHostFragment.findNavController().navigate(R.id.characterDetailsFragment, bundle)
+        }.apply {
             stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
@@ -138,5 +150,11 @@ class CharactersFragment : Fragment() {
             header = CharactersLoadingStateAdapter(adapter),
             footer = CharactersLoadingStateAdapter(adapter),
         )
+    }
+
+    // Set up the NavHost Fragment for the Tablet Layout
+    private fun setupNavHost() {
+        navHostFragment =
+            childFragmentManager.findFragmentById(R.id.detail_container) as NavHostFragment
     }
 }

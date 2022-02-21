@@ -9,7 +9,6 @@ import android.text.style.BulletSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,7 @@ import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
 
-class CharactersAdapter @Inject constructor(private var picasso: Picasso) :
+class CharactersAdapter @Inject constructor(private var picasso: Picasso, private val isTable: Boolean, private val onItemClicked: (Character) -> Unit) :
     PagingDataAdapter<Character, CharactersAdapter.CharacterViewHolder>(CharacterComparator) {
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
@@ -45,17 +44,23 @@ class CharactersAdapter @Inject constructor(private var picasso: Picasso) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(character: Character) = with(binding) {
             // TODO: Use safe-args
-            val bundle = Bundle().apply {
-                putString("characterId", character.id)
-                putString("characterName", character.name)
-            }
-            // TODO: Add shared element transition
-            binding.moreInfo.setOnClickListener(
-                Navigation.createNavigateOnClickListener(
-                    R.id.action_charactersFragment_to_characterDetailsFragment,
-                    bundle
+            if (isTable) {
+                binding.moreInfo.setOnClickListener {
+                    onItemClicked(character)
+                }
+            } else {
+                val bundle = Bundle().apply {
+                    putString("characterId", character.id)
+                    putString("characterName", character.name)
+                }
+                // TODO: Add shared element transition
+                binding.moreInfo.setOnClickListener(
+                    Navigation.createNavigateOnClickListener(
+                        R.id.action_charactersFragment_to_characterDetailsFragment,
+                        bundle
+                    )
                 )
-            )
+            }
             binding.name.text = character.name
             binding.description.text = when {
                 character.description.isNotBlank() -> character.description
