@@ -29,7 +29,7 @@ object MarvelServiceModule {
 
         return Picasso.Builder(context)
             .downloader(OkHttp3Downloader(builderPicasso.build()))
-            .listener { picasso, uri, exception -> exception.message?.let { Log.e("Picasso", it) } }
+            .listener { _, _, exception -> exception.message?.let { Log.e("Picasso", it) } }
             .build()
     }
 

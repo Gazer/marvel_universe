@@ -1,18 +1,14 @@
 package ar.com.p39.marvel_universe.character_list
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.addCallback
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.databinding.FragmentCharactersBinding
@@ -21,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -31,6 +28,11 @@ class CharactersFragment : Fragment() {
 
     @Inject
     lateinit var picasso: Picasso
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,44 +45,86 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        fetchData()
+        initViews()
+        initList()
+        collectData()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.list.adapter = null
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.characters_menu, menu)
+
+        val search: MenuItem = menu.findItem(R.id.search)
+        val searchView = search.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                viewModel.setCharacterFilter(s)
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                return false
+            }
+        })
+        search.setOnActionExpandListener(
+            object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                    // No-op
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                    viewModel.setCharacterFilter(null)
+                    return true
+                }
+            }
+        )
+        viewModel.query?.let {
+            search.expandActionView()
+            searchView.setQuery(it, false)
+        }
     }
 
-    private fun fetchData() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.charactersFlow.collectLatest {
-                adapter.submitData(it)
+    private fun collectData() {
+        viewModel.charactersFlow.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                it.collectLatest {
+                    adapter.submitData(it)
+                }
             }
         }
         lifecycleScope.launch {
-            adapter.loadStateFlow.collectLatest { loadState ->
-                binding.noInternet.isVisible = loadState.refresh is LoadState.Error
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.loading.isVisible = loadStates.refresh is LoadState.Loading
+                binding.noInternet.isVisible = loadStates.refresh is LoadState.Error
             }
         }
     }
 
-    private fun initView() {
-        if (!::adapter.isInitialized) {
-            adapter = CharactersAdapter(picasso).apply {
-                stateRestorationPolicy =
-                    RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-            }
-        }
+    private fun initViews() {
         binding.retry.setOnClickListener {
             adapter.retry()
         }
+        // TODO: Needed for Shared element transaction
         binding.list.apply {
             postponeEnterTransition()
             viewTreeObserver.addOnPreDrawListener {
                 startPostponedEnterTransition()
                 true
             }
+        }
+        // This callback will only be called when MyFragment is at least Started.
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.setCharacterFilter(null)
+        }
+        callback.isEnabled = true
+    }
+
+    private fun initList() {
+        adapter = CharactersAdapter(picasso).apply {
+            stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
         binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
             header = CharactersLoadingStateAdapter(adapter),

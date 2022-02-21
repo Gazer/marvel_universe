@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CharactersRemoteDataSource @Inject constructor(
     private var charactersPagingSource: CharactersPagingSource
 ) {
-    fun getCharacters(): Flow<PagingData<Character>> {
+    fun getCharacters(q: String?): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -19,7 +19,7 @@ class CharactersRemoteDataSource @Inject constructor(
                 enablePlaceholders = true,
             ),
             pagingSourceFactory = {
-                charactersPagingSource
+                charactersPagingSource.filter(q)
             }
         ).flow
     }

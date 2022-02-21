@@ -14,13 +14,14 @@ import javax.inject.Singleton
 class CharactersPagingSource @Inject constructor(
     private val service: MarvelService
 ) : PagingSource<Int, Character>() {
+    private var q: String? = null
+
     override fun getRefreshKey(state: PagingState<Int, Character>): Int = 0
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val pageIndex = params.key ?: 0
-        Log.d("MCU", "==> $pageIndex")
         return try {
-            val response = service.getCharacters(params.loadSize, pageIndex * params.loadSize)
+            val response = service.getCharacters(q, params.loadSize, pageIndex * params.loadSize)
             val characters: List<Character> = response.characterData.characters
             val nextKey = if (response.characterData.count == 0) {
                 null
@@ -46,4 +47,8 @@ class CharactersPagingSource @Inject constructor(
         }
     }
 
+    fun filter(q: String?): CharactersPagingSource{
+        this.q = q
+        return this
+    }
 }

@@ -13,6 +13,8 @@
         <entry key="app/src/main/res/layout/fragment_characters.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_character.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_content_loading.xml" value="0.2660332541567696" />
+        <entry key="app/src/main/res/menu/characters_menu.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.22554347826086957" />
       </map>
     </option>
   </component>

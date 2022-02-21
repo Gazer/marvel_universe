@@ -14,7 +14,8 @@ class CharactersLoadingStateAdapter(private val adapter: CharactersAdapter) :
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
         NetworkStateItemViewHolder(
             ItemContentLoadingBinding.bind(
-                LayoutInflater.from(parent.context)
+                LayoutInflater
+                    .from(parent.context)
                     .inflate(R.layout.item_content_loading, parent, false)
             )
         ) { adapter.retry() }

@@ -1,9 +1,6 @@
 package ar.com.p39.marvel_universe.character_list
 
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import ar.com.p39.marvel_universe.network_models.Character
@@ -17,26 +14,36 @@ class CharactersViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val charactersRemoteDataSource: CharactersRemoteDataSource
 ) : ViewModel() {
-    private lateinit var _charactersFlow: Flow<PagingData<Character>>
-    val charactersFlow: Flow<PagingData<Character>>
+    private var _charactersFlow: MutableLiveData<Flow<PagingData<Character>>> = MutableLiveData()
+    val charactersFlow: LiveData<Flow<PagingData<Character>>>
         get() = _charactersFlow
+
+    var query: String? = null
 
     init {
         getCharacters()
     }
 
-    private fun getCharacters() {
+    fun setCharacterFilter(q: String?) {
+        query = q
         viewModelScope.launch {
             try {
-                val result = charactersRemoteDataSource.getCharacters().cachedIn(viewModelScope)
-                _charactersFlow = result
+                val result = charactersRemoteDataSource.getCharacters(q).cachedIn(viewModelScope)
+                _charactersFlow.postValue(result)
             } catch (ex: Exception) {
 //                errorMessage.value = ex.message
             }
         }
     }
 
-    fun fetchCharacters() {
-        getCharacters()
+    private fun getCharacters() {
+        viewModelScope.launch {
+            try {
+                val result = charactersRemoteDataSource.getCharacters(null).cachedIn(viewModelScope)
+                _charactersFlow.postValue(result)
+            } catch (ex: Exception) {
+//                errorMessage.value = ex.message
+            }
+        }
     }
 }
