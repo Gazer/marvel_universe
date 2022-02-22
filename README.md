@@ -13,9 +13,17 @@ An Android app that uses Marvel APIs to browse on MCU characters
 
 ## Screenshots
 
-<img src="/img/Img1.png?raw=true" width="300" /> <img src="/img/Img2.png?raw=true" width="300" />
+### Phone Portrait
 
-<img src="/img/Img3.png?raw=true" width="600" />
+<img src="/screenshots/Screenshot_20220222_165512.png?raw=true" width="200" /> <img src="/screenshots/Screenshot_20220222_165528.png?raw=true" width="200" /> <img src="/screenshots/Screenshot_20220222_165540.png?raw=true" width="200" />
+
+### Phone Landscape
+
+<img src="/screenshots/Screenshot_20220222_165600.png?raw=true" width="300" /> <img src="/screenshots/Screenshot_20220222_165620.png?raw=true" width="300" />
+
+### Table Landscape
+
+<img src="/screenshots/Screenshot_20220222_165756.png?raw=true" width="300" /> <img src="/screenshots/Screenshot_20220222_165806.png?raw=true" width="300" />
 
 ## Dependencies
 
@@ -58,8 +66,6 @@ The app is not perfect and can be improved:
 * Use transition shared elements to improve expirience when transition to characater details
 * Add more tests :)
 * Code organization probable can be improved too. The current organization may not scale well becuse we do not have a strong convention for package names.
-
-https://dribbble.com/shots/4985712-Marvel-Heroes-Library
 
 ## Useful links
 
