@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">Marvel Universe</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="characters_no_results">Are you sure you are not looking for a DC character?</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="button_retry">Retry</string>
     <string name="character_no_data">We do not have data for this section</string>
     <string name="super_hero_image">Super-hero image</string>
     <string name="more_info">More info</string>
+    <string name="marvel_copyright">Data provided by Marvel. © 2014 Marvel</string>
 </resources>

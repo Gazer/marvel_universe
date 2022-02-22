@@ -29,7 +29,7 @@ class CharacterSummaryFragment : CharacterBaseFragment() {
 
     override fun handleLoaded(state: CharacterDetailsStates.Loaded) {
         val character = state.character
-        val url = "${character.thumbnail.path}.${character.thumbnail.extension}"
+        val url = "${character.thumbnail.path}/landscape_amazing.${character.thumbnail.extension}"
 
         with(binding) {
             name.text = character.name

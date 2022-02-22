@@ -2,6 +2,7 @@ package ar.com.p39.marvel_universe.network
 
 import android.content.Context
 import android.util.Log
+import ar.com.p39.marvel_universe.BuildConfig
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -37,8 +38,8 @@ object MarvelServiceModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         // TODO: Move to external file
-        val apiKey = "customApiKey"
-        val privateKey = "customApiSecrect"
+        val apiKey = BuildConfig.API_KEY
+        val privateKey = BuildConfig.API_SECRET
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
 

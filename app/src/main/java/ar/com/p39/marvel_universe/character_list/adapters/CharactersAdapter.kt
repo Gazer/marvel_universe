@@ -83,7 +83,7 @@ class CharactersAdapter @Inject constructor(private var picasso: Picasso, privat
                 else -> "No extra data"
             }
 
-            val url = "${character.thumbnail.path}.${character.thumbnail.extension}"
+            val url = "${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}"
 
             if (url.contains("image_not_available")) {
                 picasso.load(R.mipmap.placeholder)
