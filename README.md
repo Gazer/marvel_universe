@@ -23,7 +23,7 @@ An Android app that uses Marvel APIs to browse on MCU characters
 
 ### Table Landscape
 
-<img src="/screenshots/Screenshot_20220222_165756.png?raw=true" width="300" /> <img src="/screenshots/Screenshot_20220222_165806.png?raw=true" width="300" />
+<img src="/screenshots/Screenshot_20220222_171016.png?raw=true" width="300" /> <img src="/screenshots/Screenshot_20220222_165806.png?raw=true" width="300" />
 
 ## Dependencies
 

@@ -51,9 +51,7 @@ class CharacterDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("MCU", viewModel.toString())
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            Log.d("MCU", "Details::state")
             when (state) {
                 is CharacterDetailsStates.Error -> handleError(state)
                 is CharacterDetailsStates.Loaded -> handleLoaded(state)
@@ -61,7 +59,8 @@ class CharacterDetailsFragment : Fragment() {
             }
         }
 
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        val nestedNavHostFragment =
+            childFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         val navController = nestedNavHostFragment.navController
         setupWithNavController(
             binding.navigation,
@@ -71,8 +70,13 @@ class CharacterDetailsFragment : Fragment() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launchWhenResumed {
-            viewModel.fetchCharacter(arguments?.getString("characterId", "") ?: "")
+        if (arguments?.containsKey("characterId") == true) {
+            lifecycleScope.launchWhenResumed {
+                viewModel.fetchCharacter(arguments?.getString("characterId", "") ?: "")
+            }
+        } else {
+            binding.loading.visibility = View.GONE
+            binding.navigation.visibility = View.GONE
         }
     }
 
