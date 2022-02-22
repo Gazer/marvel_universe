@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.character_details.CharacterDetailsStates
 import ar.com.p39.marvel_universe.character_details.summary.adapters.ListAdapter
 import ar.com.p39.marvel_universe.databinding.FragmentCharacterBaseListBinding
@@ -41,17 +43,26 @@ abstract class CharacterBaseListFragment: CharacterBaseFragment() {
         val character = state.character
 
         with(binding) {
-            list.adapter = ListAdapter(getItem(character)) {
-                // TODO: Navigate
-            }
-            list.layoutManager = LinearLayoutManager(requireContext())
+            val items = getItem(character)
 
-            list.addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL
+            if (items.isEmpty()) {
+                list.isVisible = false
+                image.setImageResource(R.drawable.ic_undraw_not)
+                image.isVisible = true
+                notFound.isVisible = true
+            } else {
+                list.adapter = ListAdapter(items) {
+                    // TODO: Navigate
+                }
+                list.layoutManager = LinearLayoutManager(requireContext())
+
+                list.addItemDecoration(
+                    DividerItemDecoration(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    )
                 )
-            )
+            }
         }
     }
 

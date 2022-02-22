@@ -105,6 +105,7 @@ class CharactersFragment : Fragment() {
         }
         lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.noResults.isVisible = adapter.itemCount == 0 && loadStates.refresh is LoadState.NotLoading
                 binding.loading.isVisible = loadStates.refresh is LoadState.Loading
                 binding.noInternet.isVisible = loadStates.refresh is LoadState.Error
             }
