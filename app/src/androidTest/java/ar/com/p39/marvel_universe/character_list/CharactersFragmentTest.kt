@@ -14,6 +14,12 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 
+/*
+ * This app is very simple, so I did not wanted to make this tests bloated.
+ *
+ * In a more complex application I would recommend to move to a Robot Pattern testing as
+ * described in https://medium.com/android-bits/espresso-robot-pattern-in-kotlin-fc820ce250f7
+ */
 @HiltAndroidTest
 class CharactersFragmentTest {
     @get:Rule

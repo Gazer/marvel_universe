@@ -3,6 +3,9 @@ An Android app that uses Marvel APIs to browse on MCU characters
 ---
 >Made with 💙 by Ricardo Markiewicz // [@gazeria](https://twitter.com/gazeria).
 
+
+![Status](https://github.com/Gazer/marvel_universe/actions/workflows/android.yml/badge.svg?branch=main)
+
 ## Features
 
 - Pagination support
@@ -69,5 +72,6 @@ The app is not perfect and can be improved:
 
 ## Useful links
 
+* https://medium.com/android-bits/espresso-robot-pattern-in-kotlin-fc820ce250f7
 * https://proandroiddev.com/our-safe-approach-to-android-jetpack-navigation-in-a-multi-modular-app-fae7bf025423
 * https://undraw.co/
