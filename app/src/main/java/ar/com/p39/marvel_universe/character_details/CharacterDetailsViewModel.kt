@@ -29,7 +29,7 @@ class CharacterDetailsViewModel @AssistedInject constructor(
                     )
                 } else {
                     _uiState.postValue(
-                        CharacterDetailsStates.Error("Character not found: ${response.status}")
+                        CharacterDetailsStates.Error("Character not found")
                     )
                 }
             } catch (e: Exception) {
