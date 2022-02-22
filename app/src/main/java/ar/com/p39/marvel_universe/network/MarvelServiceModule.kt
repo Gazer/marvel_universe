@@ -18,7 +18,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object MarvelServiceModule {

@@ -22,7 +22,7 @@ android {
         buildConfigField "String", "API_KEY", apikeyProperties['API_KEY']
         buildConfigField "String", "API_SECRET", apikeyProperties['API_SECRET']
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "ar.com.p39.marvel_universe.CustomTestRunner"
     }
 
     buildTypes {
@@ -48,6 +48,16 @@ android {
 //    kapt {
 //        correctErrorTypes = true
 //    }
+}
+
+task grantAnimationPermission(type: Exec, dependsOn: 'installDebug') {
+    commandLine "adb shell pm grant ar.com.p39.marvel_universe android.permission.SET_ANIMATION_SCALE".split(' ')
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith('connected')) {
+        task.dependsOn grantAnimationPermission
+    }
 }
 
 dependencies {
@@ -94,4 +104,10 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
+
 }
