@@ -13,10 +13,15 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3736413043478261" />
         <entry key="app/src/main/res/layout/characters_fragment.xml" value="0.3736413043478261" />
         <entry key="app/src/main/res/layout/fragment_character_details.xml" value="0.3903985507246377" />
+        <entry key="app/src/main/res/layout/fragment_character_series.xml" value="0.31023550724637683" />
+        <entry key="app/src/main/res/layout/fragment_character_summary.xml" value="0.31023550724637683" />
         <entry key="app/src/main/res/layout/fragment_characters.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_character.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_comic.xml" value="0.31023550724637683" />
         <entry key="app/src/main/res/layout/item_content_loading.xml" value="0.2660332541567696" />
+        <entry key="app/src/main/res/menu/characters_details_section.xml" value="0.384375" />
         <entry key="app/src/main/res/menu/characters_menu.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/menu/details_bottom_nav.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/xml/searchable.xml" value="0.22554347826086957" />
       </map>
     </option>

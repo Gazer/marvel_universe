@@ -6,10 +6,12 @@ import ar.com.p39.marvel_universe.network.MarvelService
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
 object CharacterDetailsModule {
+    @Singleton
     fun provideFactory(
         assistedFactory: CharacterDetailsViewModelFactory,
         marvelService: MarvelService,

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/character_summary"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Summary" />
+
+    <item
+        android:id="@+id/character_comics"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Comics" />
+
+    <item
+        android:id="@+id/character_series"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Series" />
+
+    <item
+        android:id="@+id/character_stories"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Stories" />
+
+    <item
+        android:id="@+id/character_events"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Events" />
+</menu>

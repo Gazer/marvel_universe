@@ -6,8 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.character_details.CharacterDetailsModule.provideFactory
 import ar.com.p39.marvel_universe.databinding.FragmentCharacterDetailsBinding
@@ -16,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CharacterDetailsFragment : Fragment() {
@@ -29,7 +37,7 @@ class CharacterDetailsFragment : Fragment() {
 
     @Inject
     lateinit var factory: CharacterDetailsViewModelFactory
-    private val viewModel: CharacterDetailsViewModel by viewModels {
+    private val viewModel: CharacterDetailsViewModel by activityViewModels {
         provideFactory(
             factory,
             marvelService,
@@ -48,13 +56,22 @@ class CharacterDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("MCU", viewModel.toString())
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
+            Log.d("MCU", "Details::state")
             when (state) {
                 is CharacterDetailsStates.Error -> handleError(state)
                 is CharacterDetailsStates.Loaded -> handleLoaded(state)
                 CharacterDetailsStates.Loading -> handleLoading(state)
             }
         }
+
+        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        val navController = nestedNavHostFragment.navController
+        setupWithNavController(
+            binding.navigation,
+            navController
+        )
         fetchData()
     }
 
@@ -70,23 +87,6 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun handleLoaded(state: CharacterDetailsStates.Loaded) {
         binding.loading.visibility = View.GONE
-        val character = state.character
-        Log.d("MCU", "Got character: ${character.description}")
-        val url = "${character.thumbnail.path}.${character.thumbnail.extension}"
-
-        with(binding) {
-            name.text = character.name
-            description.text = character.description
-        }
-        if (url.contains("image_not_available")) {
-            picasso.load(R.mipmap.placeholder)
-                .into(binding.image)
-        } else {
-            picasso
-                .load(url)
-                .placeholder(R.mipmap.placeholder)
-                .into(binding.image)
-        }
     }
 
     private fun handleError(state: CharacterDetailsStates.Error) {

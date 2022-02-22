@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_details_sections"
+    app:startDestination="@id/character_summary">
+
+    <fragment
+        android:id="@+id/character_summary"
+        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterSummaryFragment"
+        android:label="CharacterSummaryFragment" />
+
+    <fragment
+        android:id="@+id/character_series"
+        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterSeriesFragment"
+        android:label="CharacterSeriesFragment" />
+
+    <fragment
+        android:id="@+id/character_comics"
+        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterComicsFragment"
+        android:label="CharacterComicsFragment" />
+
+    <fragment
+        android:id="@+id/character_events"
+        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterEventsFragment"
+        android:label="CharacterEventsFragment" />
+
+    <fragment
+        android:id="@+id/character_stories"
+        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterStoriesFragment"
+        android:label="CharacterStoriesFragment" />
+
+</navigation>
