@@ -31,6 +31,19 @@ An Android app that uses Marvel APIs to browse on MCU characters
 * JUnit for unit testing
 * Espresso for Integration/UI testing
 
+## Marvel API KEY
+
+In order to use this app you need to register on the Marvel Developer portal and create an api key.
+
+If you already have an account you can check you api key and secret at https://developer.marvel.com/account.
+
+Once you have both values, create a file called apikey.properties in the root directory with:
+
+```
+API_KEY="your api key"
+API_SECRET="your api secret"
+```
+
 ## Design Choises
 
 * The base design was inspired by https://dribbble.com/shots/4985712-Marvel-Heroes-Library
