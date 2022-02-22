@@ -2,37 +2,47 @@ package ar.com.p39.marvel_universe.character_list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.AsyncPagingDataDiffer
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ListUpdateCallback
 import ar.com.p39.marvel_universe.BaseTestCase
 import ar.com.p39.marvel_universe.character_list.adapters.CharactersAdapter
-import ar.com.p39.marvel_universe.utils.CoroutineDispatcherRule
-import ar.com.p39.marvel_universe.utils.InstantTaskExecutorRule
+import ar.com.p39.marvel_universe.network_models.Character
 import ar.com.p39.marvel_universe.utils.observeOnce
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class CharactersViewModelTest : BaseTestCase() {
     private lateinit var viewModel: CharactersViewModel
-    private val fakeCharactersRemoteDataSource = FakeCharactersRemoteDataSource()
+
+    @MockK
+    private lateinit var charactersRemoteDataSource: CharactersRemoteDataSource
+
+    @MockK
+    private lateinit var character: Character
 
     @Before
     fun setup() {
-        viewModel = CharactersViewModel(SavedStateHandle(), fakeCharactersRemoteDataSource)
+        viewModel = CharactersViewModel(SavedStateHandle(), charactersRemoteDataSource)
     }
 
     @Test
     fun `SHOULD load characters on creation`() = runTest {
         // GIVEN
+        every { charactersRemoteDataSource.getCharacters(any()) } returns flow {
+            emit(PagingData.from(listOf(character)))
+        }
         val differ = AsyncPagingDataDiffer(
             diffCallback = CharactersAdapter.CharacterComparator,
             updateCallback = noopListUpdateCallback,
@@ -50,13 +60,18 @@ class CharactersViewModelTest : BaseTestCase() {
         advanceUntilIdle()
 
         // THEN
-        assertThat(differ.snapshot().items.size, `is`(3))
+        assertThat(differ.snapshot().items.size, `is`(1))
+        assertThat(differ.snapshot().items.first(), `is`(character))
         job?.cancel()
     }
 
     @Test
     fun `SHOULD set filter to search characters`() = runTest {
         // GIVEN
+        every { character.name } returns "Hulk"
+        every { charactersRemoteDataSource.getCharacters(any()) } returns flow {
+            emit(PagingData.from(listOf(character)))
+        }
         val differ = AsyncPagingDataDiffer(
             diffCallback = CharactersAdapter.CharacterComparator,
             updateCallback = noopListUpdateCallback,

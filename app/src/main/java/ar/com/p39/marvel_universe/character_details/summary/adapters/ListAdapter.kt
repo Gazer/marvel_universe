@@ -3,7 +3,7 @@ package ar.com.p39.marvel_universe.character_details.summary.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ar.com.p39.marvel_universe.databinding.ItemComicBinding
+import ar.com.p39.marvel_universe.databinding.ItemDetailListBinding
 
 class ListAdapter(
     private val items: List<String>,
@@ -11,7 +11,7 @@ class ListAdapter(
 ) :
     RecyclerView.Adapter<ListAdapter.ComicViewHolder>() {
 
-    inner class ComicViewHolder(private val binding: ItemComicBinding) :
+    inner class ComicViewHolder(private val binding: ItemDetailListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(title: String) {
             binding.name.text = title
@@ -23,7 +23,7 @@ class ListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
         return ComicViewHolder(
-            ItemComicBinding.inflate(
+            ItemDetailListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
