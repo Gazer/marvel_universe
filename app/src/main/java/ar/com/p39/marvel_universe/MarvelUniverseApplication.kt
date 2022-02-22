@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.to_remove
+package ar.com.p39.marvel_universe
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
