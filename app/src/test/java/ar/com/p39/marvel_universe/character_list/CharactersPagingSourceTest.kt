@@ -17,9 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Exception
 
 
 @ExperimentalCoroutinesApi

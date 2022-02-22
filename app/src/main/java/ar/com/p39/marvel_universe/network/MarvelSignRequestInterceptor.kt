@@ -5,10 +5,14 @@ import okhttp3.Response
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class MarvelSignRequestInterceptor(private val apiKey: String, private val apiSecret: String) :
+class MarvelSignRequestInterceptor(
+    private val apiKey: String,
+    private val apiSecret: String,
+    private val overrideTs: String? = null,
+) :
     Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val ts = System.currentTimeMillis().toString()
+        val ts = overrideTs ?: System.currentTimeMillis().toString()
         val hash = md5(ts + apiSecret + apiKey)
 
         var request = chain.request()
