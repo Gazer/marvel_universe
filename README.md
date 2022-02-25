@@ -69,6 +69,7 @@ The app is not perfect and can be improved:
 * Use transition shared elements to improve expirience when transition to characater details
 * Add more tests :)
 * Code organization probable can be improved too. The current organization may not scale well becuse we do not have a strong convention for package names.
+* More "clean arquitecture" layers. Right now the app is so simple that adding a domain. usecases, etc will just over engineering the app, but it would be nice to have them as an example.
 
 ## Useful links
 
