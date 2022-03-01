@@ -1,10 +1,11 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.paging
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import ar.com.p39.marvel_universe.BaseTestCase
-import ar.com.p39.marvel_universe.network.MarvelService
+import ar.com.p39.marvel_universe.character_list.pagination.CharactersPagingSource
+import ar.com.p39.marvel_universe.character_list.use_cases.GetAllCharacters
 import ar.com.p39.marvel_universe.network_models.Character
 import ar.com.p39.marvel_universe.network_models.CharacterDataContainer
 import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
@@ -25,11 +26,11 @@ class CharactersPagingSourceTest : BaseTestCase() {
     private lateinit var charactersPagingSource: CharactersPagingSource
 
     @MockK
-    lateinit var marvelService: MarvelService
+    lateinit var getAllCharacters: GetAllCharacters
 
     @Before
     fun setup() {
-        charactersPagingSource = CharactersPagingSource(marvelService)
+        charactersPagingSource = CharactersPagingSource(getAllCharacters)
     }
 
     @Test
@@ -126,7 +127,7 @@ class CharactersPagingSourceTest : BaseTestCase() {
         // GIVEN
         val exceptionMessage = "io exception"
         val exception = IOException(exceptionMessage)
-        coEvery { marvelService.getCharacters(any(), any(), any()) } throws exception
+        coEvery { getAllCharacters(any(), any(), any()) } throws exception
 
         val loadParams = PagingSource.LoadParams.Refresh(
             key = 0,
@@ -153,6 +154,6 @@ class CharactersPagingSourceTest : BaseTestCase() {
         every { characterDataWrapper.characterData } returns characterDataContainer
         every { characterDataWrapper.code } returns "200"
 
-        coEvery { marvelService.getCharacters(any(), any(), any()) } returns characterDataWrapper
+        coEvery { getAllCharacters(any(), any(), any()) } returns characterDataWrapper
     }
 }

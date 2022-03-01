@@ -1,8 +1,9 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.viewmodel
 
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import ar.com.p39.marvel_universe.character_list.pagination.CharactersRemoteDataSource
 import ar.com.p39.marvel_universe.network_models.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

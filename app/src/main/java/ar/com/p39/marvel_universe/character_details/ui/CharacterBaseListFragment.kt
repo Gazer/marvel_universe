@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_details.summary
+package ar.com.p39.marvel_universe.character_details.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ar.com.p39.marvel_universe.R
 import ar.com.p39.marvel_universe.character_details.CharacterDetailsStates
-import ar.com.p39.marvel_universe.character_details.summary.adapters.ListAdapter
+import ar.com.p39.marvel_universe.character_details.ui.adapters.ListAdapter
 import ar.com.p39.marvel_universe.databinding.FragmentCharacterBaseListBinding
 import ar.com.p39.marvel_universe.network_models.Character
 
-abstract class CharacterBaseListFragment: CharacterBaseFragment() {
+abstract class CharacterBaseListFragment : CharacterBaseFragment() {
     private lateinit var binding: FragmentCharacterBaseListBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

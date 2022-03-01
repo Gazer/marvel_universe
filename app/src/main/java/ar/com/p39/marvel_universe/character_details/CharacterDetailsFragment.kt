@@ -1,7 +1,6 @@
 package ar.com.p39.marvel_universe.character_details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import ar.com.p39.marvel_universe.R
-import ar.com.p39.marvel_universe.character_details.CharacterDetailsModule.provideFactory
+import ar.com.p39.marvel_universe.character_details.viewmodel.CharacterDetailsViewModel
 import ar.com.p39.marvel_universe.databinding.FragmentCharacterDetailsBinding
 import ar.com.p39.marvel_universe.network.MarvelService
 import com.google.android.material.snackbar.Snackbar
@@ -30,14 +29,7 @@ class CharacterDetailsFragment : Fragment() {
     @Inject
     lateinit var picasso: Picasso
 
-    @Inject
-    lateinit var factory: CharacterDetailsViewModelFactory
-    private val viewModel: CharacterDetailsViewModel by activityViewModels {
-        provideFactory(
-            factory,
-            marvelService,
-        )
-    }
+    private val viewModel: CharacterDetailsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,8 +46,8 @@ class CharacterDetailsFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is CharacterDetailsStates.Error -> handleError(state)
-                is CharacterDetailsStates.Loaded -> handleLoaded(state)
-                CharacterDetailsStates.Loading -> handleLoading(state)
+                is CharacterDetailsStates.Loaded -> handleLoaded()
+                CharacterDetailsStates.Loading -> handleLoading()
             }
         }
 
@@ -80,11 +72,11 @@ class CharacterDetailsFragment : Fragment() {
         }
     }
 
-    private fun handleLoading(state: CharacterDetailsStates) {
+    private fun handleLoading() {
         binding.loading.visibility = View.VISIBLE
     }
 
-    private fun handleLoaded(state: CharacterDetailsStates.Loaded) {
+    private fun handleLoaded() {
         binding.loading.visibility = View.GONE
     }
 

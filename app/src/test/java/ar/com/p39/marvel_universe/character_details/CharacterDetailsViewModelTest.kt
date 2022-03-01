@@ -1,7 +1,8 @@
 package ar.com.p39.marvel_universe.character_details
 
 import ar.com.p39.marvel_universe.BaseTestCase
-import ar.com.p39.marvel_universe.network.MarvelService
+import ar.com.p39.marvel_universe.character_details.use_cases.GetCharacter
+import ar.com.p39.marvel_universe.character_details.viewmodel.CharacterDetailsViewModel
 import ar.com.p39.marvel_universe.network_models.Character
 import ar.com.p39.marvel_universe.network_models.CharacterDataContainer
 import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
@@ -23,14 +24,14 @@ class CharacterDetailsViewModelTest : BaseTestCase() {
     private lateinit var viewModel: CharacterDetailsViewModel
 
     @MockK
-    lateinit var marvelService: MarvelService
+    lateinit var getCharacter: GetCharacter
 
     @MockK
     lateinit var character: Character
 
     @Before
     fun setup() {
-        viewModel = CharacterDetailsViewModel(marvelService)
+        viewModel = CharacterDetailsViewModel(getCharacter)
     }
 
     @Test
@@ -54,7 +55,7 @@ class CharacterDetailsViewModelTest : BaseTestCase() {
     @Test
     fun `fetchCharacter SHOULD detect if there is no connection`() = runTest {
         // GIVEN
-        coEvery { marvelService.getCharacter(any()) } throws IOException()
+        coEvery { getCharacter(any()) } throws IOException()
 
         // WHEN
         lateinit var uiState: CharacterDetailsStates
@@ -98,6 +99,6 @@ class CharacterDetailsViewModelTest : BaseTestCase() {
         every { characterDataWrapper.characterData } returns characterDataContainer
         every { characterDataWrapper.code } returns code
 
-        coEvery { marvelService.getCharacter(any()) } returns characterDataWrapper
+        coEvery { getCharacter(any()) } returns characterDataWrapper
     }
 }

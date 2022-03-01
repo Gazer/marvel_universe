@@ -1,8 +1,8 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ar.com.p39.marvel_universe.network.MarvelService
+import ar.com.p39.marvel_universe.character_list.use_cases.GetAllCharacters
 import ar.com.p39.marvel_universe.network_models.Character
 import retrofit2.HttpException
 import java.io.IOException
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CharactersPagingSource @Inject constructor(
-    private val service: MarvelService
+    private val getAllCharacters: GetAllCharacters
 ) : PagingSource<Int, Character>() {
     private var q: String? = null
 
@@ -20,7 +20,7 @@ class CharactersPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val pageIndex = params.key ?: 0
         return try {
-            val response = service.getCharacters(q, params.loadSize, pageIndex * params.loadSize)
+            val response = getAllCharacters(q, params.loadSize, pageIndex * params.loadSize)
             val characters: List<Character> = response.characterData.characters
             val nextKey = if (response.characterData.count + response.characterData.offset >= response.characterData.total) {
                 null
@@ -46,7 +46,7 @@ class CharactersPagingSource @Inject constructor(
         }
     }
 
-    fun filter(q: String?): CharactersPagingSource{
+    fun filter(q: String?): CharactersPagingSource {
         this.q = q
         return this
     }

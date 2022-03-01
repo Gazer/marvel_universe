@@ -14,6 +14,12 @@ An Android app that uses Marvel APIs to browse on MCU characters
 - Phone and Table layouts
 - Browse character details (comics, events, etc)
 
+## About this Branch
+
+This branch contains a refactor to use a more "clean architecture" approach. Some friends ask mne why I did not go with a deeper abstraction and more layers.
+
+The answer is simple: the app does not required it yet. But, I will do it anyway so others may take some inspiration to apply the same concepts on larger apps where multiple developers works at the same time.
+
 ## Screenshots
 
 ### Phone Portrait

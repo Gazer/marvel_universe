@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.pagination
 
 import androidx.paging.PagingData
 import ar.com.p39.marvel_universe.network_models.Character

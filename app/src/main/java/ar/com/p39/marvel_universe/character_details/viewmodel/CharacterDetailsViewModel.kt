@@ -1,16 +1,18 @@
-package ar.com.p39.marvel_universe.character_details
+package ar.com.p39.marvel_universe.character_details.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.com.p39.marvel_universe.network.MarvelService
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
+import ar.com.p39.marvel_universe.character_details.CharacterDetailsStates
+import ar.com.p39.marvel_universe.character_details.use_cases.GetCharacter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CharacterDetailsViewModel @AssistedInject constructor(
-    @Assisted private val marvelService: MarvelService,
+@HiltViewModel
+class CharacterDetailsViewModel @Inject constructor(
+    private val getCharacter: GetCharacter
 ) : ViewModel() {
 
     private val _uiState: MutableLiveData<CharacterDetailsStates> = MutableLiveData()
@@ -22,7 +24,7 @@ class CharacterDetailsViewModel @AssistedInject constructor(
         _uiState.value = CharacterDetailsStates.Loading
         viewModelScope.launch {
             try {
-                val response = marvelService.getCharacter(characterId)
+                val response = getCharacter(characterId)
                 if (response.code == "200") {
                     _uiState.postValue(
                         CharacterDetailsStates.Loaded(response.characterData.characters.first())
