@@ -71,23 +71,4 @@ class CharacterDetailsViewModelTest : BaseTestCase() {
         assert(uiState is CharacterDetailsStates.Error)
         assertEquals("No Internet Connection", (uiState as CharacterDetailsStates.Error).error)
     }
-
-    // TODO: This goes to MarvelCharacterRepositoryTest now
-//    @Test
-//    fun `fetchCharacter SHOULD detect if the character id is invalid`() = runTest {
-//        // GIVEN
-//        setCharacterResponse(character, 1, 1, 0, "404")
-//
-//        // WHEN
-//        lateinit var uiState: CharacterDetailsStates
-//        viewModel.uiState.skipFirstAndObserveOnce {
-//            uiState = it
-//        }
-//        viewModel.fetchCharacter("someId")
-//        advanceUntilIdle()
-//
-//        // THEN
-//        assert(uiState is CharacterDetailsStates.Error)
-//        assertEquals("Character not found", (uiState as CharacterDetailsStates.Error).error)
-//    }
 }
