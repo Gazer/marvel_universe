@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.com.p39.marvel_universe.character_details.CharacterDetailsStates
 import ar.com.p39.marvel_universe.character_details.use_cases.GetCharacter
+import ar.com.p39.marvel_universe.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,13 +26,12 @@ class CharacterDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = getCharacter(characterId)
-                if (response.code == "200") {
-                    _uiState.postValue(
-                        CharacterDetailsStates.Loaded(response.characterData.characters.first())
+                when (response) {
+                    is Result.Error -> _uiState.postValue(
+                        CharacterDetailsStates.Error(response.error)
                     )
-                } else {
-                    _uiState.postValue(
-                        CharacterDetailsStates.Error("Character not found")
+                    is Result.Success -> _uiState.postValue(
+                        CharacterDetailsStates.Loaded(response.data)
                     )
                 }
             } catch (e: Exception) {
