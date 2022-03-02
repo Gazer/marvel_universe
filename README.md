@@ -5,6 +5,7 @@ An Android app that uses Marvel APIs to browse on MCU characters
 
 
 ![Status](https://github.com/Gazer/marvel_universe/actions/workflows/android.yml/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/Gazer/marvel_universe/branch/main/graph/badge.svg?token=5YSjChL5Ci)](https://codecov.io/gh/Gazer/marvel_universe)
 
 ## Features
 

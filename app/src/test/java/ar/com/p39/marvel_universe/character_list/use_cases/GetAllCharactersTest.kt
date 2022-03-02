@@ -19,13 +19,13 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class GetAllCharactersTest: BaseTestCase() {
-    @MockK lateinit var marvelCharactersRepository: MarvelCharactersRepository
+    @MockK lateinit var repository: MarvelCharactersRepository
 
     lateinit var getAllCharacters: GetAllCharacters
 
     @Before
     fun setup() {
-        getAllCharacters = GetAllCharacters(marvelCharactersRepository)
+        getAllCharacters = GetAllCharacters(repository)
     }
 
     @Test
@@ -34,7 +34,7 @@ class GetAllCharactersTest: BaseTestCase() {
         val character = mockk<Character>()
         val response = mockk<CharactersResponse>()
         every { response.items } returns listOf(character)
-        coEvery { getAllCharacters(any(), any(), any()) } returns Result.Success(response)
+        coEvery { repository.getCharacters(any(), any(), any()) } returns Result.Success(response)
 
         // WHEN
         val result = getAllCharacters(null, 0, 0)
