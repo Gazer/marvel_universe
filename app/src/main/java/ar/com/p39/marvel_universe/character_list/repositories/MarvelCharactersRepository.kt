@@ -1,7 +1,10 @@
 package ar.com.p39.marvel_universe.character_list.repositories
 
+import ar.com.p39.marvel_universe.character_list.models.CharactersResponse
+import ar.com.p39.marvel_universe.character_list.models.toCharactersResponse
 import ar.com.p39.marvel_universe.network.MarvelService
-import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
+import ar.com.p39.marvel_universe.common.Result
+import ar.com.p39.marvel_universe.network_models.Character
 import javax.inject.Inject
 
 /*
@@ -12,7 +15,21 @@ import javax.inject.Inject
 class MarvelCharactersRepository @Inject constructor(
     private val service: MarvelService
 ) {
-    suspend fun getCharacters(nameStartsWith: String?, limit: Int, offset: Int): CharacterDataWrapper {
-        return service.getCharacters(nameStartsWith, limit, offset)
+    suspend fun getCharacters(
+        nameStartsWith: String?,
+        limit: Int,
+        offset: Int
+    ): Result<CharactersResponse> {
+        return try {
+            val response = service.getCharacters(nameStartsWith, limit, offset)
+            if (response.code == "200") {
+                val result = response.characterData.toCharactersResponse()
+                Result.Success(result)
+            } else {
+                Result.Error(response.status)
+            }
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage ?: e.toString())
+        }
     }
 }
