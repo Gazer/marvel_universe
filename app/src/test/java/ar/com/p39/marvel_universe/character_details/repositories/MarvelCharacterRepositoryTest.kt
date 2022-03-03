@@ -1,9 +1,9 @@
 package ar.com.p39.marvel_universe.character_details.repositories
 
 import ar.com.p39.marvel_universe.BaseTestCase
+import ar.com.p39.marvel_universe.common.Result
 import ar.com.p39.marvel_universe.network.MarvelService
 import ar.com.p39.marvel_universe.network_models.Character
-import ar.com.p39.marvel_universe.common.Result
 import ar.com.p39.marvel_universe.network_models.CharacterDataContainer
 import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
 import io.mockk.coEvery

@@ -14,12 +14,7 @@ An Android app that uses Marvel APIs to browse on MCU characters
 - App state-preservation/restoration when the screen rotate
 - Phone and Table layouts
 - Browse character details (comics, events, etc)
-
-## About this Branch
-
-This branch contains a refactor to use a more "clean architecture" approach. Some friends ask mne why I did not go with a deeper abstraction and more layers.
-
-The answer is simple: the app does not required it yet. But, I will do it anyway so others may take some inspiration to apply the same concepts on larger apps where multiple developers works at the same time.
+- "Clean Architecture" using MVVM, repository pattern, and use-cases.
 
 ## Screenshots
 
@@ -38,7 +33,6 @@ The answer is simple: the app does not required it yet. But, I will do it anyway
 ## Dependencies
 
 * 100% Kotlin
-* MVVM Design Pattern
 * Retrofit for HTTP request
 * Paging3 for infinite list loading
 * ViewModel, LiveData and stuff
@@ -62,7 +56,7 @@ API_KEY="your api key"
 API_SECRET="your api secret"
 ```
 
-## Design Choises
+## Design Choices
 
 * The base design was inspired by https://dribbble.com/shots/4985712-Marvel-Heroes-Library
 * UI was not very well planned so it may look weird, this can be avoided hiring a designer :)
@@ -75,8 +69,7 @@ The app is not perfect and can be improved:
 * Move strings from Layout to string.xml for localiztion
 * Use transition shared elements to improve expirience when transition to characater details
 * Add more tests :)
-* Code organization probable can be improved too. The current organization may not scale well becuse we do not have a strong convention for package names.
-* More "clean arquitecture" layers. Right now the app is so simple that adding a domain. usecases, etc will just over engineering the app, but it would be nice to have them as an example.
+* Code organization probable can be improved too. The current organization may not scale well because we do not have a strong convention for package names.
 
 ## Useful links
 

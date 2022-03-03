@@ -3,8 +3,6 @@ package ar.com.p39.marvel_universe.character_list.use_cases
 import ar.com.p39.marvel_universe.character_list.models.CharactersResponse
 import ar.com.p39.marvel_universe.character_list.repositories.MarvelCharactersRepository
 import ar.com.p39.marvel_universe.common.Result
-import ar.com.p39.marvel_universe.network_models.Character
-import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
 import javax.inject.Inject
 
 /*

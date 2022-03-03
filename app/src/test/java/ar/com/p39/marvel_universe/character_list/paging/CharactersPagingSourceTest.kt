@@ -7,12 +7,11 @@ import ar.com.p39.marvel_universe.BaseTestCase
 import ar.com.p39.marvel_universe.character_list.models.CharactersResponse
 import ar.com.p39.marvel_universe.character_list.pagination.CharactersPagingSource
 import ar.com.p39.marvel_universe.character_list.use_cases.GetAllCharacters
-import ar.com.p39.marvel_universe.network_models.Character
 import ar.com.p39.marvel_universe.common.Result
+import ar.com.p39.marvel_universe.network_models.Character
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking

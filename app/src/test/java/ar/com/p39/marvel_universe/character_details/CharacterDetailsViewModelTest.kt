@@ -5,13 +5,9 @@ import ar.com.p39.marvel_universe.character_details.use_cases.GetCharacter
 import ar.com.p39.marvel_universe.character_details.viewmodel.CharacterDetailsViewModel
 import ar.com.p39.marvel_universe.common.Result
 import ar.com.p39.marvel_universe.network_models.Character
-import ar.com.p39.marvel_universe.network_models.CharacterDataContainer
-import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
 import ar.com.p39.marvel_universe.utils.skipFirstAndObserveOnce
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
