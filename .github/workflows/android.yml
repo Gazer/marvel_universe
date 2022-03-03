@@ -28,7 +28,22 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Unit Test
-      run: ./gradlew testDebugUnitTest
+      run: ./gradlew testDebugUnitTest jacocoTestReport
+
+    - name: generate coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: report
+        path: app/build/jacoco/
+
+    - name: Download Test Reports Folder
+      uses: actions/download-artifact@v2
+      with:
+        name: report
+        path: app/build/jacoco/
+
+    - name: Upload Test Report
+      run:  bash <(curl -s https://codecov.io/bash) -f "app/build/jacoco/jacoco.xml"
 
     - name: Android Test Report
       uses: asadmansr/android-test-report-action@v1.2.0

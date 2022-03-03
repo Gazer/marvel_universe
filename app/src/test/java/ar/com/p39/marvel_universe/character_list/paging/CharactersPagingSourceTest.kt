@@ -1,17 +1,17 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.paging
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import ar.com.p39.marvel_universe.BaseTestCase
-import ar.com.p39.marvel_universe.network.MarvelService
+import ar.com.p39.marvel_universe.character_list.models.CharactersResponse
+import ar.com.p39.marvel_universe.character_list.pagination.CharactersPagingSource
+import ar.com.p39.marvel_universe.character_list.use_cases.GetAllCharacters
+import ar.com.p39.marvel_universe.common.Result
 import ar.com.p39.marvel_universe.network_models.Character
-import ar.com.p39.marvel_universe.network_models.CharacterDataContainer
-import ar.com.p39.marvel_universe.network_models.CharacterDataWrapper
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -25,11 +25,24 @@ class CharactersPagingSourceTest : BaseTestCase() {
     private lateinit var charactersPagingSource: CharactersPagingSource
 
     @MockK
-    lateinit var marvelService: MarvelService
+    lateinit var getAllCharacters: GetAllCharacters
+
+    @MockK
+    lateinit var character: Character
+
+    @MockK
+    lateinit var response: CharactersResponse
 
     @Before
     fun setup() {
-        charactersPagingSource = CharactersPagingSource(marvelService)
+        every { response.items } returns listOf(character)
+        every { response.count } returns 1
+        every { response.limit } returns 1
+        every { response.offset } returns 1
+        every { response.total } returns 3
+        coEvery { getAllCharacters(any(), any(), any()) } returns Result.Success(response)
+
+        charactersPagingSource = CharactersPagingSource(getAllCharacters)
     }
 
     @Test
@@ -52,9 +65,6 @@ class CharactersPagingSourceTest : BaseTestCase() {
     @Test
     fun `load SHOULD calculate next and prev page correctly for first page`() = runBlocking {
         // GIVEN
-        val character = mockk<Character>()
-        setCharacterResponse(character, 1, 3, 0)
-
         val loadParams = PagingSource.LoadParams.Refresh(
             key = 0,
             loadSize = 1,
@@ -76,9 +86,6 @@ class CharactersPagingSourceTest : BaseTestCase() {
     @Test
     fun `load SHOULD calculate next and prev page correctly for other pages`() = runBlocking {
         // GIVEN
-        val character = mockk<Character>()
-        setCharacterResponse(character, 1, 3, 1)
-
         val loadParams = PagingSource.LoadParams.Refresh(
             key = 1,
             loadSize = 1,
@@ -100,9 +107,7 @@ class CharactersPagingSourceTest : BaseTestCase() {
     @Test
     fun `load SHOULD calculate next and prev page correctly for the last page`() = runBlocking {
         // GIVEN
-        val character = mockk<Character>()
-        setCharacterResponse(character, 1, 3, 2)
-
+        every { response.offset } returns 2
         val loadParams = PagingSource.LoadParams.Refresh(
             key = 0,
             loadSize = 1,
@@ -126,7 +131,7 @@ class CharactersPagingSourceTest : BaseTestCase() {
         // GIVEN
         val exceptionMessage = "io exception"
         val exception = IOException(exceptionMessage)
-        coEvery { marvelService.getCharacters(any(), any(), any()) } throws exception
+        coEvery { getAllCharacters(any(), any(), any()) } throws exception
 
         val loadParams = PagingSource.LoadParams.Refresh(
             key = 0,
@@ -140,19 +145,5 @@ class CharactersPagingSourceTest : BaseTestCase() {
 
         // THEN
         assertEquals(expectedResult, result)
-    }
-
-    private fun setCharacterResponse(character: Character, count: Int, total: Int, offset: Int) {
-        val characterDataContainer = mockk<CharacterDataContainer>()
-        every { characterDataContainer.characters } returns listOf(character)
-        every { characterDataContainer.count } returns count
-        every { characterDataContainer.total } returns total
-        every { characterDataContainer.offset } returns offset
-
-        val characterDataWrapper = mockk<CharacterDataWrapper>()
-        every { characterDataWrapper.characterData } returns characterDataContainer
-        every { characterDataWrapper.code } returns "200"
-
-        coEvery { marvelService.getCharacters(any(), any(), any()) } returns characterDataWrapper
     }
 }

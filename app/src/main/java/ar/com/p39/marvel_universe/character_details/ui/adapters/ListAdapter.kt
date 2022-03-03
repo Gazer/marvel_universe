@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_details.summary.adapters
+package ar.com.p39.marvel_universe.character_details.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

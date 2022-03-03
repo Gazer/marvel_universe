@@ -1,4 +1,4 @@
-package ar.com.p39.marvel_universe.character_list
+package ar.com.p39.marvel_universe.character_list.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.AsyncPagingDataDiffer
@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.ListUpdateCallback
 import ar.com.p39.marvel_universe.BaseTestCase
 import ar.com.p39.marvel_universe.character_list.adapters.CharactersAdapter
+import ar.com.p39.marvel_universe.character_list.pagination.CharactersRemoteDataSource
 import ar.com.p39.marvel_universe.network_models.Character
 import ar.com.p39.marvel_universe.utils.observeOnce
 import io.mockk.every

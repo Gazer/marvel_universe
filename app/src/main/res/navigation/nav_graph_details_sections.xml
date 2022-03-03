@@ -6,27 +6,27 @@
 
     <fragment
         android:id="@+id/character_summary"
-        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterSummaryFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.ui.CharacterSummaryFragment"
         android:label="CharacterSummaryFragment" />
 
     <fragment
         android:id="@+id/character_series"
-        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterSeriesFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.ui.CharacterSeriesFragment"
         android:label="CharacterSeriesFragment" />
 
     <fragment
         android:id="@+id/character_comics"
-        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterComicsFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.ui.CharacterComicsFragment"
         android:label="CharacterComicsFragment" />
 
     <fragment
         android:id="@+id/character_events"
-        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterEventsFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.ui.CharacterEventsFragment"
         android:label="CharacterEventsFragment" />
 
     <fragment
         android:id="@+id/character_stories"
-        android:name="ar.com.p39.marvel_universe.character_details.summary.CharacterStoriesFragment"
+        android:name="ar.com.p39.marvel_universe.character_details.ui.CharacterStoriesFragment"
         android:label="CharacterStoriesFragment" />
 
 </navigation>

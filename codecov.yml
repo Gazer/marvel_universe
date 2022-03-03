@@ -1,0 +1,14 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 80%    # the required coverage value
+        threshold: 1%  # the leniency in hitting the target
+
+ignore:
+  - "**/*Fragment.kt"
+  - "**/*Activity.kt"
+  - "**/*Application.kt"
+  - "**/*Adapter.kt"
+  - "**/*Module.kt"
+  - "**/network_models/*"
