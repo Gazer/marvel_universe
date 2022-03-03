@@ -67,4 +67,22 @@ class CharacterDetailsViewModelTest : BaseTestCase() {
         assert(uiState is CharacterDetailsStates.Error)
         assertEquals("No Internet Connection", (uiState as CharacterDetailsStates.Error).error)
     }
+
+    @Test
+    fun `fetchCharacter SHOULD detect there was an error fetching the character`() = runTest {
+        // GIVEN
+        coEvery { getCharacter(any()) } returns Result.Error("Some error")
+
+        // WHEN
+        lateinit var uiState: CharacterDetailsStates
+        viewModel.uiState.skipFirstAndObserveOnce {
+            uiState = it
+        }
+        viewModel.fetchCharacter("someId")
+        advanceUntilIdle()
+
+        // THEN
+        assert(uiState is CharacterDetailsStates.Error)
+        assertEquals("Some error", (uiState as CharacterDetailsStates.Error).error)
+    }
 }
