@@ -47,7 +47,7 @@ class MarvelCharactersRepositoryTest : BaseTestCase() {
     }
 
     @Test
-    fun `getCharacters SHOULD detect if the character id is invalid`() = runBlocking {
+    fun `getCharacters SHOULD detect if API response is not valid`() = runBlocking {
         // GIVEN
         every { characterDataWrapper.code } returns "404"
         every { characterDataWrapper.status } returns "NOT FOUND"
@@ -73,7 +73,7 @@ class MarvelCharactersRepositoryTest : BaseTestCase() {
     }
 
     @Test
-    fun `getCharacters SHOULD return error if the API call fails`() = runBlocking {
+    fun `getCharacters SHOULD return localized error if the API call fails`() = runBlocking {
         // GIVEN
         coEvery { marvelService.getCharacters(any(), any(), any()) } throws Exception("Error")
 
@@ -83,5 +83,18 @@ class MarvelCharactersRepositoryTest : BaseTestCase() {
         // THEN
         assertEquals(Result.Error::class.java, result.javaClass)
         assertEquals("Error", (result as Result.Error).error)
+    }
+
+    @Test
+    fun `getCharacters SHOULD return error if the API call fails`() = runBlocking {
+        // GIVEN
+        coEvery { marvelService.getCharacters(any(), any(), any()) } throws Exception()
+
+        // WHEN
+        val result = repository.getCharacters(null, 0, 0)
+
+        // THEN
+        assertEquals(Result.Error::class.java, result.javaClass)
+        assertEquals("Unknown Error", (result as Result.Error).error)
     }
 }

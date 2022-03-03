@@ -28,7 +28,7 @@ class MarvelCharactersRepository @Inject constructor(
                 Result.Error(response.status)
             }
         } catch (e: Exception) {
-            Result.Error(e.localizedMessage ?: e.toString())
+            Result.Error(e.localizedMessage ?: "Unknown Error")
         }
     }
 }
