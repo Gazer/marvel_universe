@@ -1,7 +1,7 @@
 An Android app that uses Marvel APIs to browse on MCU characters
 
 ---
->Made with 💙 by Ricardo Markiewicz // [@gazeria](https://twitter.com/gazeria).
+>Made with 💚 by Ricardo Markiewicz // [@gazeria](https://twitter.com/gazeria).
 
 
 ![Status](https://github.com/Gazer/marvel_universe/actions/workflows/android.yml/badge.svg?branch=main)
@@ -66,8 +66,8 @@ API_SECRET="your api secret"
 The app is not perfect and can be improved:
 
 * Room for Database as local cache for Offline support
-* Move strings from Layout to string.xml for localiztion
-* Use transition shared elements to improve expirience when transition to characater details
+* Move strings from Layout to string.xml for localization
+* Use transition shared elements to improve experience when transition to character details
 * Add more tests :)
 * Code organization probable can be improved too. The current organization may not scale well because we do not have a strong convention for package names.
 
