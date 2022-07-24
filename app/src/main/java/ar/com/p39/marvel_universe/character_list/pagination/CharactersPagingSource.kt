@@ -21,8 +21,7 @@ class CharactersPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val pageIndex = params.key ?: 0
         return try {
-            val response = getAllCharacters(q, params.loadSize, pageIndex * params.loadSize)
-            when (response) {
+            when (val response = getAllCharacters(q, params.loadSize, pageIndex * params.loadSize)) {
                 is Result.Error -> return LoadResult.Error(Exception(response.error))
                 is Result.Success -> {
                     val characters: List<Character> = response.data.items
